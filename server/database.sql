@@ -1,3 +1,5 @@
+create database projectGym;
+
 drop table gym if exists;
 drop table manager if exists;
 drop table trainer if exists;
