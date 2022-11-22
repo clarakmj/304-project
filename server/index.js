@@ -95,10 +95,10 @@ app.get("/employee", async (req, res) => {
 });
 
 // get cafe
-app.get("/cafe:id", async (req, res) => {
+app.get("/cafe:storenum", async (req, res) => {
     try {
         const {id} = req.params;
-        const cafe = await pool.query("SELECT * FROM cafe WHERE storenum = $1", [id]);
+        const cafe = await pool.query("SELECT * FROM cafe WHERE storenum = $1", [storenum]);
         res.json(cafe.rows[0]);
     } catch (err) {
         console.log(err.message);
@@ -176,12 +176,12 @@ app.put("/employee:id", async (req, res) => {
 });
 
 // update cafe
-app.put("/cafe:id", async (req, res) => {
+app.put("/cafe:storenum", async (req, res) => {
     try {
-        const {id} = req.params;
+        const {storenum} = req.params;
         const {description} = req.body;
         const updateCafe = await pool.query("UPDATE member SET description = $1 WHERE storenum = $2",
-            [description, id]);
+            [description, storenum]);
         res.json("Cafe updated!")
     } catch (err) {
         console.log(err.message);
