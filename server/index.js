@@ -74,6 +74,15 @@ app.get("/employee", async (req, res) => {
 });
 
 // get cafe
+app.get("/cafe:id", async (req, res) => {
+    try {
+        const {id} = req.params;
+        const cafe = await pool.query("SELECT * FROM cafe WHERE storenum = $1", [id]);
+        res.json(cafe.rows[0]);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
 
 // get equipment
 
