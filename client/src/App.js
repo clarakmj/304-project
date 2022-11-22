@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import logo from './logo.svg';
 import './App.css';
 
@@ -20,6 +21,13 @@ function App() {
       </header>
     </div>
   );
+=======
+import { Fragment } from 'react';
+import './App.css';
+
+function App() {
+  return <Fragment></Fragment>;
+>>>>>>> 1c38f7ca32718cf23a4aaac6daaedd5a453143ca
 }
 
 export default App;
