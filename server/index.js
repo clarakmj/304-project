@@ -111,6 +111,53 @@ app.get("/member", async (req, res) => {
     }
 });
 
+// get all member id's of members whose gym is in a particular city
+app.get("/member:city", async (req, res) => {
+    try {
+        const { city } = req.params;
+        const cityMembers = await pool.query(
+            "SELECT * FROM member m, gym g WHERE m.branchnum = g.branchnum AND g.city = $1", [city]);
+        res.json(cityMembers.rows);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
+// get all members with specific branchnum
+app.get("/member:branch", async (req, res) => {
+    try {
+        const { branch } = req.params;
+        const branchMembers = await pool.query(
+            "SELECT memid, branchnum FROM member WHERE branchnum = $1", [branch]);
+        res.json(branchMembers.rows);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
+// equipment grouped by status
+app.get("/equipment", async (req, res) => {
+    try {
+        const equipment = await pool.query(
+            "SELECT ename, estatus FROM equipment GROUP BY estatus");
+        res.json(equipment.rows);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
+// get all food ids grouped by storenum having price < amount
+app.get("/food:amount", async (req, res) => {
+    try {
+        const { amount } = req.params;
+        const food = await pool.query(
+            "SELECT fid, price FROM food GROUP BY storenum HAVING SUM(price) < $1", [amount]);
+        res.json(food.rows);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
 // get all employees
 app.get("/employee", async (req, res) => {
     try {
@@ -176,6 +223,17 @@ app.get("/trainer:id", async (req, res) => {
     }
 });
 
+// TODO: get trainers who work at all the gyms
+app.get("/trainer", async (req, res) => {
+    try {
+        const trainers = await pool.query(
+            "SELECT * FROM trainer");
+        res.json(trainers.rows);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
 // update member
 app.put("/member:id", async (req, res) => {
     try {
@@ -228,7 +286,31 @@ app.put("/equipment:id", async (req, res) => {
     }
 });
 
-// etc
+// delete food
+app.delete("/food/:id", async(req, res) =>{
+    try {
+        const { id } = req.params;
+        const deleteFood = await pool.query(
+            "DELETE FROM food WHERE fid = $1", [id]);
+        res.json("Food was deleted");
+    } catch (error) {
+        console.log(err.message);
+    }
+})
+
+// update food price
+app.put("/food:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { price } = req.body;
+        const updateFood = await pool.query(
+            "UPDATE food SET price = $1 WHERE fid = $2",
+            [price, id]);
+        res.json("Food price updated!")
+    } catch (err) {
+        console.log(err.message);
+    }
+});
 
 app.listen(3000, () => {
     console.log("server has started on port 3000");
