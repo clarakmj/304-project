@@ -213,11 +213,10 @@ app.get("/manager:id", async (req, res) => {
 });
 
 // get trainer
-app.get("/trainer:id", async (req, res) => {
+app.get("/trainer", async (req, res) => {
     try {
-        const {id} = req.params;
-        const trainer = await pool.query("SELECT * FROM trainer WHERE tid = $1", [id]);
-        res.json(trainer.rows[0]);
+        const trainer = await pool.query("SELECT * FROM trainer");
+        res.json(trainer.rows);
     } catch (err) {
         console.log(err.message);
     }
