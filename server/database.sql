@@ -96,7 +96,8 @@ create table food
 	storenum int,
 	branchnum int,
 	primary key (fid),
-	foreign key (storenum, branchnum) references cafe);
+	foreign key (storenum) references cafe,
+	foreign key (branchnum) references cafe);
 
 create table buys
 	(memid int,
