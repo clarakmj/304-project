@@ -87,7 +87,7 @@ create table uses
 create table cafe
 	(storenum int,
 	branchnum int,
-	primary key (sternum, branchnum)
+	primary key (storenum, branchnum),
 	foreign key (branchnum) references gym);
  
 create table food

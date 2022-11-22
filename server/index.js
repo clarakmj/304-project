@@ -8,11 +8,22 @@ app.use(express.json());
 
 // routes
 
+// create gym
+app.post("/gym", async(req, res) => {
+    try {
+        const { description } = req.body;
+        const newTodo = await pool.query("INSERT INTO gym (description) VALUES($1) RETURNING *", [description]);
+        res.json(newTodo);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
 // create member
 app.post("/member", async(req, res) => {
     try {
         const { description } = req.body;
-        const newTodo = await pool.query("INSERT INTO gym (description) VALUES($1) RETURNING *", [description]);
+        const newTodo = await pool.query("INSERT INTO member (description) VALUES($1) RETURNING *", [description]);
         res.json(newTodo.rows[0]);
     } catch (err) {
         console.log(err.message);
@@ -52,6 +63,16 @@ app.post("/cafe", async(req, res) => {
     }
 });
 
+// create food
+app.post("/food", async(req, res) => {
+    try {
+        const { description } = req.body;
+        const newTodo = await pool.query("INSERT INTO food (description) VALUES($1) RETURNING *", [description]);
+        res.json(newTodo);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
 
 // get all members
 app.get("/member", async (req, res) => {
@@ -85,6 +106,48 @@ app.get("/cafe:id", async (req, res) => {
 });
 
 // get equipment
+app.get("/equipment:snum", async (req, res) => {
+    try {
+        const {id} = req.params;
+        const equipment = await pool.query("SELECT * FROM equipment WHERE serialnum = $1", [snum]);
+        res.json(equipment.rows[0]);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
+// get member
+app.get("/member:id", async (req, res) => {
+    try {
+        const {id} = req.params;
+        const member = await pool.query("SELECT * FROM member WHERE memid = $1", [id]);
+        res.json(member.rows[0]);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
+// get manager
+app.get("/manager:id", async (req, res) => {
+    try {
+        const {id} = req.params;
+        const manager = await pool.query("SELECT * FROM manager WHERE mid = $1", [id]);
+        res.json(manager.rows[0]);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
+// get trainer
+app.get("/trainer:id", async (req, res) => {
+    try {
+        const {id} = req.params;
+        const trainer = await pool.query("SELECT * FROM trainer WHERE tid = $1", [id]);
+        res.json(trainer.rows[0]);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
 
 // update member
 
