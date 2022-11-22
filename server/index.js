@@ -150,12 +150,56 @@ app.get("/trainer:id", async (req, res) => {
 });
 
 // update member
+app.put("/member:id", async (req, res) => {
+    try {
+        const {id} = req.params;
+        const {description} = req.body;
+        const updateMember = await pool.query("UPDATE member SET description = $1 WHERE member_id = $2",
+            [description, id]);
+        res.json("Member updated!")
+    } catch (err) {
+        console.log(err.message);
+    }
+});
 
 // update employee
+app.put("/employee:id", async (req, res) => {
+    try {
+        const {id} = req.params;
+        const {description} = req.body;
+        const updateEmployee = await pool.query("UPDATE member SET description = $1 WHERE employee_id = $2",
+            [description, id]);
+        res.json("Employee updated!")
+    } catch (err) {
+        console.log(err.message);
+    }
+});
 
 // update cafe
+app.put("/cafe:id", async (req, res) => {
+    try {
+        const {id} = req.params;
+        const {description} = req.body;
+        const updateCafe = await pool.query("UPDATE member SET description = $1 WHERE storenum = $2",
+            [description, id]);
+        res.json("Cafe updated!")
+    } catch (err) {
+        console.log(err.message);
+    }
+});
 
 // update equipment
+app.put("/equipment:id", async (req, res) => {
+    try {
+        const {id} = req.params;
+        const {description} = req.body;
+        const updateEquipment = await pool.query("UPDATE member SET description = $1 WHERE serialnum = $2",
+            [description, id]);
+        res.json("Equipment updated!")
+    } catch (err) {
+        console.log(err.message);
+    }
+});
 
 // etc
 
