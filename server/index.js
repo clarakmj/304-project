@@ -64,7 +64,7 @@ app.get("/member", async (req, res) => {
 });
 
 // get all employees
-app.get("/member", async (req, res) => {
+app.get("/employee", async (req, res) => {
     try {
         const allEmployees = await pool.query("SELECT * FROM employee");
         res.json(allEmployees.rows);
