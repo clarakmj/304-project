@@ -11,9 +11,10 @@ app.use(express.json());
 // create gym
 app.post("/gym", async(req, res) => {
     try {
-        const { description } = req.body;
-        const newTodo = await pool.query("INSERT INTO gym (description) VALUES($1) RETURNING *", [description]);
-        res.json(newTodo);
+        const { branchnum, capacity, city, mid } = req.body;
+        const newGym = await pool.query(
+            "INSERT INTO gym (branchnum, capactiy, city, mid) VALUES($1, $2, $3, $4) RETURNING *", [branchnum, capacity, city, mid]);
+        res.json(newGym);
     } catch (err) {
         console.log(err.message);
     }
@@ -22,20 +23,46 @@ app.post("/gym", async(req, res) => {
 // create member
 app.post("/member", async(req, res) => {
     try {
-        const { description } = req.body;
-        const newTodo = await pool.query("INSERT INTO member (description) VALUES($1) RETURNING *", [description]);
-        res.json(newTodo.rows[0]);
+        const { memid, phonenum, streetaddr, memname, membershipnum, branchnum } = req.body;
+        const newMember = await pool.query(
+            "INSERT INTO member (memid, phonenum, streetaddr, memname, membershipnum, branchnum) VALUES($1, $2, $3, $4, $5, $6) RETURNING *", [memid, phonenum, streetaddr, memname, membershipnum, branchnum]);
+        res.json(newMember.rows[0]);
     } catch (err) {
         console.log(err.message);
     }
 });
 
-// create employee
+// create membership
+app.post("/membership", async(req, res) => {
+    try {
+        const { memnum, expirydate, memid, amenityaccess, hasmassage, hasfitnessclass } = req.body;
+        const newMembership = await pool.query(
+            "INSERT INTO membership (memnum, expirydate, memid, amenityaccess, hasmassage, hasfitnessclass) VALUES($1, $2, $3, $4, $5, $6) RETURNING *", [memnum, expirydate, memid, amenityaccess, hasmassage, hasfitnessclass]);
+        res.json(newMembership.rows[0]);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
+// create trainer
+app.post("/trainer", async(req, res) => {
+    try {
+        const { tid, tname } = req.body;
+        const newTrainer = await pool.query(
+            "INSERT INTO trainer (tid, tname) VALUES($1, $2) RETURNING *", [tid, tname]);
+        res.json(newTrainer.rows[0]);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
+// create manager
 app.post("/employee", async(req, res) => {
     try {
-        const { description } = req.body;
-        const newTodo = await pool.query("INSERT INTO manager (description) VALUES($1) RETURNING *", [description]);
-        res.json(newTodo);
+        const { mid, mname, gymnum } = req.body;
+        const newManager = await pool.query(
+            "INSERT INTO manager (mid, mname, gymnum) VALUES($1, $2, $3) RETURNING *", [mid, mname, gymnum]);
+        res.json(newManager.rows[0]);
     } catch (err) {
         console.log(err.message);
     }
@@ -44,9 +71,9 @@ app.post("/employee", async(req, res) => {
 // create equipment
 app.post("/equipment", async(req, res) => {
     try {
-        const { description } = req.body;
-        const newTodo = await pool.query("INSERT INTO equipment (description) VALUES($1) RETURNING *", [description]);
-        res.json(newTodo);
+        const { serialnum, ename, etype, estatus } = req.body;
+        const newEquipment = await pool.query("INSERT INTO equipment (serialnum, ename, etype, estatus) VALUES($1, $2, $3, $4) RETURNING *", [serialnum, ename, etype, estatus]);
+        res.json(newEquipment.rows[0]);
     } catch (err) {
         console.log(err.message);
     }
@@ -55,9 +82,9 @@ app.post("/equipment", async(req, res) => {
 // create cafe
 app.post("/cafe", async(req, res) => {
     try {
-        const { description } = req.body;
-        const newTodo = await pool.query("INSERT INTO cafe (description) VALUES($1) RETURNING *", [description]);
-        res.json(newTodo);
+        const { storenum, branchnum } = req.body;
+        const newCafe = await pool.query("INSERT INTO cafe (storenum, branchnum) VALUES($1, $2) RETURNING *", [storenum, branchnum]);
+        res.json(newCafe.rows[0]);
     } catch (err) {
         console.log(err.message);
     }
@@ -66,9 +93,9 @@ app.post("/cafe", async(req, res) => {
 // create food
 app.post("/food", async(req, res) => {
     try {
-        const { description } = req.body;
-        const newTodo = await pool.query("INSERT INTO food (description) VALUES($1) RETURNING *", [description]);
-        res.json(newTodo);
+        const { fid, price, storenum, branchnum } = req.body;
+        const newFood = await pool.query("INSERT INTO food (fid, price, storenum, branchnum) VALUES($1, $2, $3, $4) RETURNING *", [fid, price, storenum, branchnum]);
+        res.json(newFood.rows[0]);
     } catch (err) {
         console.log(err.message);
     }
