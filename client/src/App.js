@@ -6,22 +6,15 @@ import InsertFood from './components/InsertFood';
 import SelectMember from './components/SelectMember';
 
 function App() {
-<<<<<<< HEAD
-  return (
-    <Fragment>
-      <div className = "container">
-      <InsertFood />
-      </div>
-    </Fragment>
-  );
-=======
   return (
   <Fragment>
+    <div className="container">
+      <InsertFood />
+    </div>
     <div className="container">
       <SelectMember />
     </div>
     </Fragment>);
->>>>>>> bf840818925905f64d0f04518d55782da1ba4d5b
 }
 
 export default App;
