@@ -57,7 +57,7 @@ app.post("/trainer", async(req, res) => {
 });
 
 // create manager
-app.post("/employee", async(req, res) => {
+app.post("/manager", async(req, res) => {
     try {
         const { mid, mname, gymnum } = req.body;
         const newManager = await pool.query(
