@@ -126,7 +126,7 @@ app.get("/gym", async (req, res) => {
 });
 
 // get all managers
-app.get("/gym", async (req, res) => {
+app.get("/manager", async (req, res) => {
     try {
         const allManagers = await pool.query("SELECT * FROM manager");
         res.json(allManagers.rows);
