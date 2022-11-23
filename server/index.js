@@ -111,6 +111,36 @@ app.get("/member", async (req, res) => {
     }
 });
 
+// get all gyms
+app.get("/gym", async (req, res) => {
+    try {
+        const allGyms = await pool.query("SELECT * FROM gym");
+        res.json(allGyms.rows);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
+// get all managers
+app.get("/gym", async (req, res) => {
+    try {
+        const allManagers = await pool.query("SELECT * FROM manager");
+        res.json(allManagers.rows);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
+// get all trainers
+app.get("/trainer", async (req, res) => {
+    try {
+        const trainer = await pool.query("SELECT * FROM trainer");
+        res.json(trainer.rows);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
 // get all member id's of members whose gym is in a particular city
 app.get("/member:city", async (req, res) => {
     try {
@@ -158,16 +188,6 @@ app.get("/food:amount", async (req, res) => {
     }
 });
 
-// get all employees
-app.get("/employee", async (req, res) => {
-    try {
-        const allEmployees = await pool.query("SELECT * FROM employee");
-        res.json(allEmployees.rows);
-    } catch (err) {
-        console.log(err.message);
-    }
-});
-
 // get cafe
 app.get("/cafe:storenum", async (req, res) => {
     try {
@@ -207,16 +227,6 @@ app.get("/manager:id", async (req, res) => {
         const {id} = req.params;
         const manager = await pool.query("SELECT * FROM manager WHERE mid = $1", [id]);
         res.json(manager.rows[0]);
-    } catch (err) {
-        console.log(err.message);
-    }
-});
-
-// get trainer
-app.get("/trainer", async (req, res) => {
-    try {
-        const trainer = await pool.query("SELECT * FROM trainer");
-        res.json(trainer.rows);
     } catch (err) {
         console.log(err.message);
     }
