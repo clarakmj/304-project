@@ -145,6 +145,47 @@ app.get("/trainer", async (req, res) => {
     }
 });
 
+// get all memberships
+app.get("/membership", async (req, res) => {
+    try {
+        const membership = await pool.query("SELECT * FROM membership");
+        res.json(membership.rows);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
+// get all equipment
+app.get("/equipment", async (req, res) => {
+    try {
+        const equipment = await pool.query("SELECT * FROM equipment");
+        res.json(equipment.rows[0]);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
+// get all cafes
+app.get("/cafe", async (req, res) => {
+    try {
+        const cafe = await pool.query("SELECT * FROM cafe");
+        res.json(cafe.rows[0]);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
+// get all food
+app.get("/food", async (req, res) => {
+    try {
+        const food = await pool.query(
+            "SELECT * FROM food");
+        res.json(food.rows);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
 // get all member id's of members whose gym is in a particular city
 app.get("/member:city", async (req, res) => {
     try {
@@ -192,7 +233,7 @@ app.get("/food:amount", async (req, res) => {
     }
 });
 
-// get cafe
+// get cafe by storenum
 app.get("/cafe:storenum", async (req, res) => {
     try {
         const {id} = req.params;
@@ -203,7 +244,7 @@ app.get("/cafe:storenum", async (req, res) => {
     }
 });
 
-// get equipment
+// get equipment by serialnum
 app.get("/equipment:snum", async (req, res) => {
     try {
         const {id} = req.params;
@@ -214,7 +255,7 @@ app.get("/equipment:snum", async (req, res) => {
     }
 });
 
-// get member
+// get member by memid
 app.get("/member:id", async (req, res) => {
     try {
         const {id} = req.params;
@@ -225,7 +266,7 @@ app.get("/member:id", async (req, res) => {
     }
 });
 
-// get manager
+// get manager by mid
 app.get("/manager:id", async (req, res) => {
     try {
         const {id} = req.params;
@@ -299,18 +340,6 @@ app.put("/equipment:id", async (req, res) => {
     }
 });
 
-// delete food
-app.delete("/food/:id", async(req, res) =>{
-    try {
-        const { id } = req.params;
-        const deleteFood = await pool.query(
-            "DELETE FROM food WHERE fid = $1", [id]);
-        res.json("Food was deleted");
-    } catch (error) {
-        console.log(err.message);
-    }
-})
-
 // update food price
 app.put("/food:id", async (req, res) => {
     try {
@@ -324,6 +353,18 @@ app.put("/food:id", async (req, res) => {
         console.log(err.message);
     }
 });
+
+// delete food
+app.delete("/food/:id", async(req, res) =>{
+    try {
+        const { id } = req.params;
+        const deleteFood = await pool.query(
+            "DELETE FROM food WHERE fid = $1", [id]);
+        res.json("Food was deleted");
+    } catch (error) {
+        console.log(err.message);
+    }
+})
 
 app.listen(3000, () => {
     console.log("server has started on port 3000");
