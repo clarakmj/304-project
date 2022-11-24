@@ -45,6 +45,6 @@ const InsertFood = () => {
     </Fragment>
     );
     
-};
+}; 
 
 export default InsertFood;
