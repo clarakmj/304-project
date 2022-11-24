@@ -280,16 +280,6 @@ app.get("/manager:id", async (req, res) => {
     }
 });
 
-// get trainer
-app.get("/trainer", async (req, res) => {
-    try {
-        const trainer = await pool.query("SELECT * FROM trainer");
-        res.json(trainer.rows);
-    } catch (err) {
-        console.log(err.message);
-    }
-});
-
 // TODO: get trainers who work at all the gyms
 app.get("/trainer", async (req, res) => {
     try {
@@ -352,18 +342,6 @@ app.put("/equipment/:id", async (req, res) => {
         console.log(err.message);
     }
 });
-
-// delete food
-app.delete("/food/:id", async(req, res) =>{
-    try {
-        const { id } = req.params;
-        const deleteFood = await pool.query(
-            "DELETE FROM food WHERE fid = $1", [id]);
-        res.json("Food was deleted");
-    } catch (error) {
-        console.log(err.message);
-    }
-})
 
 // update food price
 app.put("/food/:id", async (req, res) => {
