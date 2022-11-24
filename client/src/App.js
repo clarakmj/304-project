@@ -4,7 +4,7 @@ import './App.css';
 // components 
 import InsertFood from './components/InsertFood';
 import SelectMember from './components/SelectMember';
-// import ListFood from "./components/ListFood";
+import ListFood from "./components/ListFood";
 
 function App() {
   return (

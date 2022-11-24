@@ -58,7 +58,7 @@ app.post("/trainer", async(req, res) => {
 });
 
 // create manager
-app.post("/manager", async(req, res) => {
+app.post("/employee", async(req, res) => {
     try {
         const { mid, mname, gymnum } = req.body;
         const newManager = await pool.query(
@@ -96,58 +96,13 @@ app.post("/cafe", async(req, res) => {
 // create food
 app.post("/food", async(req, res) => {
     try {
-        const { fid, price, storenum, branchnum } = req.body;
-        const newFood = await pool.query(
-            "INSERT INTO food (fid, price, storenum, branchnum) VALUES($1, $2, $3, $4) RETURNING *", [fid, price, storenum, branchnum]);
+        // const { fid, price, storenum, branchnum } = req.body;
+        // const newFood = await pool.query("INSERT INTO food (fid, price, storenum, branchnum) VALUES($1, $2, $3, $4) RETURNING *", [fid, price, storenum, branchnum]);
+        // res.json(newFood.rows[0]);
+        const { fid } = req.body;
+        const newFood = await pool.query("INSERT INTO food (fid) VALUES($1) RETURNING *", [fid]);
         res.json(newFood.rows[0]);
-    } catch (err) {
-        console.log(err.message);
-    }
-});
-
-// create worksat
-app.post("/worksat", async(req, res) => {
-    try {
-        const { branchnum, tid, employmenttype } = req.body;
-        const newWorksAt = await pool.query(
-            "INSERT INTO worksat (branchnum, tid, employmenttype) VALUES($1, $2, $3) RETURNING *", [branchnum, tid, employmenttype]);
-        res.json(newWorksAt.rows[0]);
-    } catch (err) {
-        console.log(err.message);
-    }
-});
-
-// create trains
-app.post("/trains", async(req, res) => {
-    try {
-        const { tid, memid } = req.body;
-        const newTrains = await pool.query(
-            "INSERT INTO trains (tid, memid) VALUES($1, $2) RETURNING *", [tid, memid]);
-        res.json(newTrains.rows[0]);
-    } catch (err) {
-        console.log(err.message);
-    }
-});
-
-// create uses
-app.post("/uses", async(req, res) => {
-    try {
-        const { routine, serialnum, memid } = req.body;
-        const newUses = await pool.query(
-            "INSERT INTO uses (routine, serialnum, memid) VALUES($1, $2, $3) RETURNING *", [routine, serialnum, memid]);
-        res.json(newUses.rows[0]);
-    } catch (err) {
-        console.log(err.message);
-    }
-});
-
-// create buys
-app.post("/buys", async(req, res) => {
-    try {
-        const { memid, fid } = req.body;
-        const newBuys = await pool.query(
-            "INSERT INTO buys (memid, fid) VALUES($1, $2) RETURNING *", [memid, fid]);
-        res.json(newBuys.rows[0]);
+        console.log("done food");
     } catch (err) {
         console.log(err.message);
     }
@@ -193,26 +148,6 @@ app.get("/trainer", async (req, res) => {
     }
 });
 
-// get all worksat
-app.get("/worksat", async (req, res) => {
-    try {
-        const worksAt = await pool.query("SELECT * FROM worksat");
-        res.json(worksAt.rows);
-    } catch (err) {
-        console.log(err.message);
-    }
-});
-
-// get all trains
-app.get("/trains", async (req, res) => {
-    try {
-        const trains = await pool.query("SELECT * FROM trains");
-        res.json(trains.rows);
-    } catch (err) {
-        console.log(err.message);
-    }
-});
-
 // get all memberships
 app.get("/membership", async (req, res) => {
     try {
@@ -228,16 +163,6 @@ app.get("/equipment", async (req, res) => {
     try {
         const equipment = await pool.query("SELECT * FROM equipment");
         res.json(equipment.rows[0]);
-    } catch (err) {
-        console.log(err.message);
-    }
-});
-
-// get all uses
-app.get("/uses", async (req, res) => {
-    try {
-        const uses = await pool.query("SELECT * FROM uses");
-        res.json(uses.rows[0]);
     } catch (err) {
         console.log(err.message);
     }
@@ -259,17 +184,6 @@ app.get("/food", async (req, res) => {
         const food = await pool.query(
             "SELECT * FROM food");
         res.json(food.rows);
-    } catch (err) {
-        console.log(err.message);
-    }
-});
-
-// get all buys
-app.get("/buys", async (req, res) => {
-    try {
-        const buys = await pool.query(
-            "SELECT * FROM buys");
-        res.json(buys.rows);
     } catch (err) {
         console.log(err.message);
     }
@@ -323,7 +237,7 @@ app.get("/food/:amount", async (req, res) => {
 });
 
 // get cafe by storenum
-app.get("/cafe/:storenum", async (req, res) => {
+app.get("/cafe:storenum", async (req, res) => {
     try {
         const {id} = req.params;
         const cafe = await pool.query("SELECT * FROM cafe WHERE storenum = $1", [storenum]);
@@ -334,7 +248,7 @@ app.get("/cafe/:storenum", async (req, res) => {
 });
 
 // get equipment by serialnum
-app.get("/equipment/:snum", async (req, res) => {
+app.get("/equipment:snum", async (req, res) => {
     try {
         const {id} = req.params;
         const equipment = await pool.query("SELECT * FROM equipment WHERE serialnum = $1", [snum]);
@@ -345,7 +259,7 @@ app.get("/equipment/:snum", async (req, res) => {
 });
 
 // get member by memid
-app.get("/member/:id", async (req, res) => {
+app.get("/member:id", async (req, res) => {
     try {
         const {id} = req.params;
         const member = await pool.query("SELECT * FROM member WHERE memid = $1", [id]);
@@ -356,11 +270,21 @@ app.get("/member/:id", async (req, res) => {
 });
 
 // get manager by mid
-app.get("/manager/:id", async (req, res) => {
+app.get("/manager:id", async (req, res) => {
     try {
         const {id} = req.params;
         const manager = await pool.query("SELECT * FROM manager WHERE mid = $1", [id]);
         res.json(manager.rows[0]);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
+// get trainer
+app.get("/trainer", async (req, res) => {
+    try {
+        const trainer = await pool.query("SELECT * FROM trainer");
+        res.json(trainer.rows);
     } catch (err) {
         console.log(err.message);
     }
@@ -429,6 +353,18 @@ app.put("/equipment/:id", async (req, res) => {
     }
 });
 
+// delete food
+app.delete("/food/:id", async(req, res) =>{
+    try {
+        const { id } = req.params;
+        const deleteFood = await pool.query(
+            "DELETE FROM food WHERE fid = $1", [id]);
+        res.json("Food was deleted");
+    } catch (error) {
+        console.log(err.message);
+    }
+})
+
 // update food price
 app.put("/food/:id", async (req, res) => {
     try {
@@ -450,7 +386,7 @@ app.delete("/food/:id", async(req, res) =>{
         const deleteFood = await pool.query(
             "DELETE FROM food WHERE fid = $1", [id]);
         res.json("Food was deleted");
-    } catch (err) {
+    } catch (error) {
         console.log(err.message);
     }
 })
