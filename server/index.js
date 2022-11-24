@@ -292,6 +292,7 @@ app.get("/trainer", async (req, res) => {
 });
 
 // update member
+// !! which attribute to update is not yet specified
 app.put("/member/:id", async (req, res) => {
     try {
         const {id} = req.params;
@@ -305,6 +306,7 @@ app.put("/member/:id", async (req, res) => {
 });
 
 // update employee
+// !! which attribute to update is not yet specified
 app.put("/employee/:id", async (req, res) => {
     try {
         const {id} = req.params;
@@ -318,6 +320,7 @@ app.put("/employee/:id", async (req, res) => {
 });
 
 // update cafe
+// !! which attribute to update is not yet specified
 app.put("/cafe/:storenum", async (req, res) => {
     try {
         const {storenum} = req.params;
@@ -331,6 +334,7 @@ app.put("/cafe/:storenum", async (req, res) => {
 });
 
 // update equipment
+// !! which attribute to update is not yet specified
 app.put("/equipment/:id", async (req, res) => {
     try {
         const {id} = req.params;
@@ -344,6 +348,7 @@ app.put("/equipment/:id", async (req, res) => {
 });
 
 // update food price
+// !! which attribute to update is not yet specified
 app.put("/food/:id", async (req, res) => {
     try {
         const { id } = req.params;
