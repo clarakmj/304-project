@@ -8,7 +8,7 @@ const SelectMember = () => {
         e.preventDefault();
         try{
             const body = {description};
-            const response = fetch("http://localhost:3000/food", {
+            const response = await fetch("http://localhost:3000/food", {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(body)
