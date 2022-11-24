@@ -118,7 +118,15 @@ values
 (333, 100, 'Vancouver', 34567),
 (444, 120, 'Surrey', 45678),
 (555, 50, 'Vancouver', 56789),
-(666, 20, 'Kamloops', 67890);
+(666, 20, 'Kamloops', 67890),
+(777, 110, 'Vancouver', 11111),
+(888, 250, 'Surrey', 22222),
+(999, 180, 'Surrey', 33333),
+(122, 90, 'Victoria', 44444),
+(133, 80, 'Kamloops', 55555),
+(144, 105, 'Victoria', 66666),
+(155, 55, 'Surrey', 77777),
+(166, 10, 'Kamloops', 88888);
 
 insert into member
 (memid, phonenum, streetaddr, memname, membershipnum, branchnum)
@@ -139,7 +147,15 @@ values
 (34567, 'Ash', 333),
 (45678, 'Bill', 444),
 (56789, 'Avery', 555),
-(67890, 'Cait', 666);
+(67890, 'Cait', 666),
+(11111, 'Kayn', 777),
+(22222, 'Bruno', 888),
+(33333, 'Jack', 999),
+(44444, 'Sam', 122),
+(55555, 'Frank', 133),
+(66666, 'Juno', 144),
+(77777, 'Cass', 155),
+(88888, 'Karma', 166);
 
 insert into trainer
 (tid, tname)
