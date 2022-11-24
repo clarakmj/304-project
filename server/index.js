@@ -49,14 +49,14 @@ app.put("/food/:id", async (req, res) => {
     }
 });
 
-// SELECTION QUERY & join?
-// get all members of members whose gym is in a particular city
-app.get("/member/:city", async (req, res) => {
+// SELECTION QUERY
+// all members who go to a particular branch and membership ID > x
+app.get("/member/:branchnum/:memid", async (req, res) => {
     try {
-        const { city } = req.params;
-        const cityMembers = await pool.query(
-            "SELECT * FROM member m, gym g WHERE m.branchnum = g.branchnum AND g.city = $1", [city]);
-        res.json(cityMembers.rows);
+        const { branchnum, memid } = req.params;
+        const members = await pool.query(
+            "SELECT * FROM member WHERE branchnum = $1 AND memid > $2", [branchnum, memid]);
+        res.json(members.rows);
     } catch (err) {
         console.log(err.message);
     }

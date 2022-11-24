@@ -128,7 +128,8 @@ values
 (33, 8881231212, '990 Fake Street', 'Phil Frank', 1002, 333),
 (44, 8881998823, '102 Random Boulevard', 'Sara Jones', 1003, 222),
 (55, 8882222277, '98 Hello World', 'Meredith Grey', 1004, 111),
-(66, 2842349877, '99 Street Name', 'Blicker Jones', 1005, 555);
+(66, 2842349877, '99 Street Name', 'Blicker Jones', 1005, 555),
+(77, 9999999999, '12 Hello Ave', 'Dove Boot', 1006, 555);
 
 insert into manager
 (mid, mname, gymnum)
@@ -160,7 +161,8 @@ values
 (1002, '02/01/2023', 33, false, false, false),
 (1003, '01/01/2024', 44, true, false, true),
 (1004, '05/12/2023', 55, false, true, true),
-(1005, '01/01/2025', 66, true, true, true);
+(1005, '01/01/2025', 66, true, true, true),
+(1006, '10/10/2023', 77, false, false, false);
 
 insert into equipment 
 (serialnum, ename, etype, estatus)
