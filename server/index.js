@@ -63,13 +63,12 @@ app.get("/member/:branchnum/:memid", async (req, res) => {
 });
 
 // PROJECTION QUERY
-// get all gym branch numbers with capacity greater than a certain number
-app.get("/gym/:capacity", async (req, res) => {
+// get memnum, memid, expirydate of existing memberships
+app.get("/membership/", async (req, res) => {
     try {
-        const { capacity } = req.params;
-        const gyms = await pool.query(
-            "SELECT branchnum FROM gym WHERE capacity > $1", [capacity]);
-        res.json(gyms.rows);
+        const membership = await pool.query(
+            "SELECT memnum, memid, expirydate FROM membership");
+        res.json(membership.rows);
     } catch (err) {
         console.log(err.message);
     }
