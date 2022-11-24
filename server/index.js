@@ -9,6 +9,72 @@ app.use(express.json());
 
 // routes
 
+// INSERT QUERY
+// create food
+app.post("/food", async(req, res) => {
+    try {
+        const { fid, price, storenum, branchnum } = req.body;
+        const newFood = await pool.query("INSERT INTO food (fid, price, storenum, branchnum) VALUES($1, $2, $3, $4) RETURNING *", [fid, price, storenum, branchnum]);
+        res.json(newFood.rows[0]);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
+// DELETE QUERY
+// delete food
+app.delete("/food/:id", async(req, res) =>{
+    try {
+        const { id } = req.params;
+        const deleteFood = await pool.query(
+            "DELETE FROM food WHERE fid = $1", [id]);
+        res.json("Food was deleted");
+    } catch (error) {
+        console.log(err.message);
+    }
+})
+
+// UPDATE QUERY
+// update food price
+app.put("/food/:id", async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { price } = req.body;
+        const updateFood = await pool.query(
+            "UPDATE food SET price = $1 WHERE fid = $2",
+            [price, id]);
+        res.json("Food price updated!")
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
+// SELECTION QUERY & join?
+// get all members of members whose gym is in a particular city
+app.get("/member/:city", async (req, res) => {
+    try {
+        const { city } = req.params;
+        const cityMembers = await pool.query(
+            "SELECT * FROM member m, gym g WHERE m.branchnum = g.branchnum AND g.city = $1", [city]);
+        res.json(cityMembers.rows);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
+// PROJECTION QUERY
+// get all gym branch numbers with capacity greater than a certain number
+app.get("/gym/:capacity", async (req, res) => {
+    try {
+        const { capacity } = req.params;
+        const gyms = await pool.query(
+            "SELECT branchnum FROM gym WHERE capacity > $1", [capacity]);
+        res.json(gyms.rows);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
 // create gym
 app.post("/gym", async(req, res) => {
     try {
@@ -93,17 +159,6 @@ app.post("/cafe", async(req, res) => {
     }
 });
 
-// create food
-app.post("/food", async(req, res) => {
-    try {
-        const { fid, price, storenum, branchnum } = req.body;
-        const newFood = await pool.query("INSERT INTO food (fid, price, storenum, branchnum) VALUES($1, $2, $3, $4) RETURNING *", [fid, price, storenum, branchnum]);
-        res.json(newFood.rows[0]);
-    } catch (err) {
-        console.log(err.message);
-    }
-});
-
 // get all members
 app.get("/member", async (req, res) => {
     try {
@@ -180,30 +235,6 @@ app.get("/food", async (req, res) => {
         const food = await pool.query(
             "SELECT * FROM food");
         res.json(food.rows);
-    } catch (err) {
-        console.log(err.message);
-    }
-});
-
-// get all members of members whose gym is in a particular city
-app.get("/member/:city", async (req, res) => {
-    try {
-        const { city } = req.params;
-        const cityMembers = await pool.query(
-            "SELECT * FROM member m, gym g WHERE m.branchnum = g.branchnum AND g.city = $1", [city]);
-        res.json(cityMembers.rows);
-    } catch (err) {
-        console.log(err.message);
-    }
-});
-
-// get all gym branch numbers with capacity greater than a certain number
-app.get("/gym/:capacity", async (req, res) => {
-    try {
-        const { capacity } = req.params;
-        const gyms = await pool.query(
-            "SELECT branchnum FROM gym WHERE capacity > $1", [capacity]);
-        res.json(gyms.rows);
     } catch (err) {
         console.log(err.message);
     }
@@ -343,33 +374,6 @@ app.put("/equipment/:id", async (req, res) => {
         console.log(err.message);
     }
 });
-
-// update food price
-// !! which attribute to update is not yet specified
-app.put("/food/:id", async (req, res) => {
-    try {
-        const { id } = req.params;
-        const { price } = req.body;
-        const updateFood = await pool.query(
-            "UPDATE food SET price = $1 WHERE fid = $2",
-            [price, id]);
-        res.json("Food price updated!")
-    } catch (err) {
-        console.log(err.message);
-    }
-});
-
-// delete food
-app.delete("/food/:id", async(req, res) =>{
-    try {
-        const { id } = req.params;
-        const deleteFood = await pool.query(
-            "DELETE FROM food WHERE fid = $1", [id]);
-        res.json("Food was deleted");
-    } catch (error) {
-        console.log(err.message);
-    }
-})
 
 app.listen(3000, () => {
     console.log("server has started on port 3000");
