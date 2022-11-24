@@ -1,4 +1,5 @@
 import React, {Fragment, useEffect, useState} from "react";
+import UpdateFood from "./UpdateFood";
 
 const ListFood = () => {
 
@@ -58,7 +59,9 @@ const ListFood = () => {
           <td>{food.price}</td>
           <td>{food.storenum}</td>
           <td>{food.branchnum}</td>
-          <td>Edit</td>
+          <td>
+            <UpdateFood food = {food}/>
+          </td>
           <td>
             <button className = "btn btn-danger" onClick = {() => {
               deleteFood(food.fid)
