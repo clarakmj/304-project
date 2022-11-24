@@ -100,8 +100,16 @@ app.get("/foodsum", async (req, res) => {
 });
 
 // AGGREGATE WITH HAVING QUERY
-// 
-
+// get most expensive item from each store that sells more than 1 item
+app.get("/fooditem", async (req, res) => {
+    try {
+        const food = await pool.query(
+            "SELECT max(price), storenum FROM food GROUP BY storenum HAVING count(price) > 1");
+        res.json(food.rows);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
 
 // NESTED AGGREGATION WITH GROUP BY QUERY
 // 
