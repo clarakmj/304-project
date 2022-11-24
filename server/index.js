@@ -240,6 +240,17 @@ app.get("/food", async (req, res) => {
     }
 });
 
+// get buys
+app.get("/buys", async (req, res) => {
+    try {
+        const buys = await pool.query(
+            "SELECT * FROM buys");
+        res.json(buys.rows);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
 // equipment grouped by status
 // !! prob needs to be rewritten currently returning empty
 app.get("/equipment", async (req, res) => {
