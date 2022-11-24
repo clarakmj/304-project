@@ -64,7 +64,7 @@ app.get("/member/:branchnum/:memid", async (req, res) => {
 
 // PROJECTION QUERY
 // get memnum, memid, expirydate of existing memberships
-app.get("/membership/", async (req, res) => {
+app.get("/membership", async (req, res) => {
     try {
         const membership = await pool.query(
             "SELECT memnum, memid, expirydate FROM membership");
@@ -86,6 +86,29 @@ app.get("/uses/:routine", async (req, res) => {
         console.log(err.message);
     }
 });
+
+// AGGREGATE WITH GROUP BY QUERY
+// get cafe store number and sum of food prices grouped by storenum
+app.get("/foodsum", async (req, res) => {
+    try {
+        const food = await pool.query(
+            "SELECT storenum, sum(price) FROM food GROUP BY storenum");
+        res.json(food.rows);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
+// AGGREGATE WITH HAVING QUERY
+// 
+
+
+// NESTED AGGREGATION WITH GROUP BY QUERY
+// 
+
+
+// DIVISION QUERY
+// 
 
 // create gym
 app.post("/gym", async(req, res) => {
