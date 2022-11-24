@@ -2,13 +2,28 @@ import React, {Fragment, useEffect, useState} from "react";
 
 const ListFood = () => {
 
+  const [foods, setFood] = useState([]);
+
+  const deleteFood = async fid => {
+    try {
+      const deleteFood = await fetch(`http://localhost:3000/food/${fid}`, {
+        method: "DELETE"
+      });
+
+      setFood(foods.filter(food => food.fid !== fid));
+
+    } catch (err) {
+      console.error(err.message);
+    }
+  }
+
     const getFood = async () => {
         try {
             
             const response = await fetch("http://localhost:3000/food")
             const jsonData = await response.json();
 
-            console.log(jsonData);
+            setFood(jsonData);
         } catch (err) {
             console.log("oh no");
         }
@@ -16,7 +31,8 @@ const ListFood = () => {
 
     useEffect(() => {
         getFood();
-    })
+    }, []);
+
 
     return <Fragment>
          <table class="table mt-5 text-center">
@@ -36,10 +52,23 @@ const ListFood = () => {
         <td>Doe</td>
         <td>john@example.com</td>
       </tr> */}
-      
+      {foods.map(food => (
+        <tr key = {food.fid}>
+          <td>{food.fid}</td>
+          <td>{food.price}</td>
+          <td>{food.storenum}</td>
+          <td>{food.branchnum}</td>
+          <td>Edit</td>
+          <td>
+            <button className = "btn btn-danger" onClick = {() => {
+              deleteFood(food.fid)
+            }}>Delete</button>
+          </td>
+        </tr>
+      ))}
     </tbody>
   </table>
     </Fragment>
 }
 
-export default ListFood;
+export default ListFood; 

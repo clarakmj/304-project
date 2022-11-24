@@ -21,7 +21,7 @@ const InsertFood = () => {
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(body)
             });
-            window.alert("Done!");
+            // window.alert("Done!");
             window.location= "/";
         } catch (err) {
             console.error(err.message)
