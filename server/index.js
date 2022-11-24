@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const pool = require("./db");
+const { response } = require("express");
 
 app.use(cors());
 app.use(express.json());
@@ -72,7 +73,8 @@ app.post("/manager", async(req, res) => {
 app.post("/equipment", async(req, res) => {
     try {
         const { serialnum, ename, etype, estatus } = req.body;
-        const newEquipment = await pool.query("INSERT INTO equipment (serialnum, ename, etype, estatus) VALUES($1, $2, $3, $4) RETURNING *", [serialnum, ename, etype, estatus]);
+        const newEquipment = await pool.query(
+            "INSERT INTO equipment (serialnum, ename, etype, estatus) VALUES($1, $2, $3, $4) RETURNING *", [serialnum, ename, etype, estatus]);
         res.json(newEquipment.rows[0]);
     } catch (err) {
         console.log(err.message);
@@ -83,7 +85,8 @@ app.post("/equipment", async(req, res) => {
 app.post("/cafe", async(req, res) => {
     try {
         const { storenum, branchnum } = req.body;
-        const newCafe = await pool.query("INSERT INTO cafe (storenum, branchnum) VALUES($1, $2) RETURNING *", [storenum, branchnum]);
+        const newCafe = await pool.query(
+            "INSERT INTO cafe (storenum, branchnum) VALUES($1, $2) RETURNING *", [storenum, branchnum]);
         res.json(newCafe.rows[0]);
     } catch (err) {
         console.log(err.message);
@@ -93,13 +96,58 @@ app.post("/cafe", async(req, res) => {
 // create food
 app.post("/food", async(req, res) => {
     try {
-        // const { fid, price, storenum, branchnum } = req.body;
-        // const newFood = await pool.query("INSERT INTO food (fid, price, storenum, branchnum) VALUES($1, $2, $3, $4) RETURNING *", [fid, price, storenum, branchnum]);
-        // res.json(newFood.rows[0]);
-        const { fid } = req.body;
-        const newFood = await pool.query("INSERT INTO food (fid) VALUES($1) RETURNING *", [fid]);
+        const { fid, price, storenum, branchnum } = req.body;
+        const newFood = await pool.query(
+            "INSERT INTO food (fid, price, storenum, branchnum) VALUES($1, $2, $3, $4) RETURNING *", [fid, price, storenum, branchnum]);
         res.json(newFood.rows[0]);
-        console.log("done food");
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
+// create worksat
+app.post("/worksat", async(req, res) => {
+    try {
+        const { branchnum, tid, employmenttype } = req.body;
+        const newWorksAt = await pool.query(
+            "INSERT INTO worksat (branchnum, tid, employmenttype) VALUES($1, $2, $3) RETURNING *", [branchnum, tid, employmenttype]);
+        res.json(newWorksAt.rows[0]);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
+// create trains
+app.post("/trains", async(req, res) => {
+    try {
+        const { tid, memid } = req.body;
+        const newTrains = await pool.query(
+            "INSERT INTO trains (tid, memid) VALUES($1, $2) RETURNING *", [tid, memid]);
+        res.json(newTrains.rows[0]);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
+// create uses
+app.post("/uses", async(req, res) => {
+    try {
+        const { routine, serialnum, memid } = req.body;
+        const newUses = await pool.query(
+            "INSERT INTO uses (routine, serialnum, memid) VALUES($1, $2, $3) RETURNING *", [routine, serialnum, memid]);
+        res.json(newUses.rows[0]);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
+// create buys
+app.post("/buys", async(req, res) => {
+    try {
+        const { memid, fid } = req.body;
+        const newBuys = await pool.query(
+            "INSERT INTO buys (memid, fid) VALUES($1, $2) RETURNING *", [memid, fid]);
+        res.json(newBuys.rows[0]);
     } catch (err) {
         console.log(err.message);
     }
@@ -145,6 +193,26 @@ app.get("/trainer", async (req, res) => {
     }
 });
 
+// get all worksat
+app.get("/worksat", async (req, res) => {
+    try {
+        const worksAt = await pool.query("SELECT * FROM worksat");
+        res.json(worksAt.rows);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
+// get all trains
+app.get("/trains", async (req, res) => {
+    try {
+        const trains = await pool.query("SELECT * FROM trains");
+        res.json(trains.rows);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
 // get all memberships
 app.get("/membership", async (req, res) => {
     try {
@@ -160,6 +228,16 @@ app.get("/equipment", async (req, res) => {
     try {
         const equipment = await pool.query("SELECT * FROM equipment");
         res.json(equipment.rows[0]);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
+// get all uses
+app.get("/uses", async (req, res) => {
+    try {
+        const uses = await pool.query("SELECT * FROM uses");
+        res.json(uses.rows[0]);
     } catch (err) {
         console.log(err.message);
     }
@@ -181,6 +259,17 @@ app.get("/food", async (req, res) => {
         const food = await pool.query(
             "SELECT * FROM food");
         res.json(food.rows);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
+// get all buys
+app.get("/buys", async (req, res) => {
+    try {
+        const buys = await pool.query(
+            "SELECT * FROM buys");
+        res.json(buys.rows);
     } catch (err) {
         console.log(err.message);
     }

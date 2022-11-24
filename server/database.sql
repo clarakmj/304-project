@@ -18,16 +18,17 @@ create table gym
 	capacity int,
 	city char(20),
 	mid int,
-	primary key (branchnum),
-	foreign key (mid) references manager);
+	primary key (branchnum));
  
 create table manager
 	(mid int,
 	mname char(20),
 	gymnum int,
-	primary key (mid),
-	foreign key (gymnum) references gym);
+	primary key (mid));
  
+alter table gym add constraint fk_mid foreign key (mid) references manager(mid) deferrable;
+alter table manager add constraint fk_gymnum foreign key (gymnum) references gym(branchnum) deferrable;
+
 create table trainer
 	(tid int,
 	tname char(20),
@@ -49,7 +50,6 @@ create table member
 	membershipnum int,
 	branchnum int,
 	primary key (memid),
-	foreign key (membershipnum) references membership,
 	foreign key (branchnum) references gym);
 
 create table trains
@@ -66,8 +66,10 @@ create table membership
 	amenityaccess boolean,
 	hasmassage boolean,
 	hasfitnessclass boolean,
-	primary key (memnum),
-	foreign key (memid) references member);
+	primary key (memnum));
+
+alter table member add constraint fk_membershipnum foreign key (membershipnum) references membership(memnum) deferrable;
+alter table membership add constraint fk_memid foreign key (memid) references member(memid) deferrable;
  
 create table equipment
 	(serialnum int,
@@ -87,9 +89,10 @@ create table uses
 create table cafe
 	(storenum int,
 	branchnum int,
-	primary key (storenum, branchnum),
-	foreign key (branchnum) references gym);
- 
+	primary key (storenum, branchnum));
+
+alter table cafe add constraint fk_branchnum foreign key (branchnum) references gym(branchnum) deferrable;
+
 create table food
 	(fid int,
 	price float,
@@ -105,6 +108,8 @@ create table buys
 	foreign key (memid) references member,
 	foreign key (fid) references food);
 
+alter session set constraints = deferred;
+
 insert into gym 
 (branchnum, capacity, city, mid) 
 values
@@ -113,6 +118,15 @@ values
 (333, 100, 'Vancouver', 34567),
 (444, 120, 'Surrey', 45678),
 (555, 50, 'Vancouver', 56789);
+
+insert into member
+(memid, phonenum, streetaddr, memname, membershipnum, branchnum)
+values
+(11, 8881234567, '123 Some Street', 'Jane Doe', 1000, 555),
+(22, 8881112222, '223 Test Avenue', 'John Dee', 1001, 444),
+(33, 8881231212, '990 Fake Street', 'Phil Frank', 1002, 333),
+(44, 8881998823, '102 Random Boulevard', 'Sara Jones', 1003, 222),
+(55, 8882222277, '98 Hello World', 'Meredith Grey', 1004, 111);
 
 insert into manager
 (mid, mname, gymnum)
@@ -131,15 +145,6 @@ values
 (321, 'Warren'),
 (251, 'Gary'),
 (920, 'Trish');
-
-insert into member
-(memid, phonenum, streetaddr, memname, membershipnum, branchnum)
-values
-(11, 8881234567, '123 Some Street', 'Jane Doe', 1000, 555),
-(22, 8881112222, '223 Test Avenue', 'John Dee', 1001, 444),
-(33, 8881231212, '990 Fake Street', 'Phil Frank', 1002, 333),
-(44, 8881998823, '102 Random Boulevard', 'Sara Jones', 1003, 222),
-(55, 8882222277, '98 Hello World', 'Meredith Grey', 1004, 111);
 
 insert into membership
 (memnum, expirydate, memid, amenityaccess, hasmassage, hasfitnessclass)
@@ -212,3 +217,5 @@ values
 (33, 3434),
 (44, 3883),
 (55, 3997);
+
+commit;
