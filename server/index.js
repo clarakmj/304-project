@@ -276,7 +276,7 @@ app.get("/buys", async (req, res) => {
 });
 
 // get all member id's of members whose gym is in a particular city
-app.get("/member:city", async (req, res) => {
+app.get("/member/:city", async (req, res) => {
     try {
         const { city } = req.params;
         const cityMembers = await pool.query(
@@ -288,7 +288,7 @@ app.get("/member:city", async (req, res) => {
 });
 
 // get all members with specific branchnum
-app.get("/member:branch", async (req, res) => {
+app.get("/member/:branch", async (req, res) => {
     try {
         const { branch } = req.params;
         const branchMembers = await pool.query(
@@ -311,7 +311,7 @@ app.get("/equipment", async (req, res) => {
 });
 
 // get all food ids grouped by storenum having price < amount
-app.get("/food:amount", async (req, res) => {
+app.get("/food/:amount", async (req, res) => {
     try {
         const { amount } = req.params;
         const food = await pool.query(
@@ -323,7 +323,7 @@ app.get("/food:amount", async (req, res) => {
 });
 
 // get cafe by storenum
-app.get("/cafe:storenum", async (req, res) => {
+app.get("/cafe/:storenum", async (req, res) => {
     try {
         const {id} = req.params;
         const cafe = await pool.query("SELECT * FROM cafe WHERE storenum = $1", [storenum]);
@@ -334,7 +334,7 @@ app.get("/cafe:storenum", async (req, res) => {
 });
 
 // get equipment by serialnum
-app.get("/equipment:snum", async (req, res) => {
+app.get("/equipment/:snum", async (req, res) => {
     try {
         const {id} = req.params;
         const equipment = await pool.query("SELECT * FROM equipment WHERE serialnum = $1", [snum]);
@@ -345,7 +345,7 @@ app.get("/equipment:snum", async (req, res) => {
 });
 
 // get member by memid
-app.get("/member:id", async (req, res) => {
+app.get("/member/:id", async (req, res) => {
     try {
         const {id} = req.params;
         const member = await pool.query("SELECT * FROM member WHERE memid = $1", [id]);
@@ -356,7 +356,7 @@ app.get("/member:id", async (req, res) => {
 });
 
 // get manager by mid
-app.get("/manager:id", async (req, res) => {
+app.get("/manager/:id", async (req, res) => {
     try {
         const {id} = req.params;
         const manager = await pool.query("SELECT * FROM manager WHERE mid = $1", [id]);
@@ -378,7 +378,7 @@ app.get("/trainer", async (req, res) => {
 });
 
 // update member
-app.put("/member:id", async (req, res) => {
+app.put("/member/:id", async (req, res) => {
     try {
         const {id} = req.params;
         const {description} = req.body;
@@ -391,7 +391,7 @@ app.put("/member:id", async (req, res) => {
 });
 
 // update employee
-app.put("/employee:id", async (req, res) => {
+app.put("/employee/:id", async (req, res) => {
     try {
         const {id} = req.params;
         const {description} = req.body;
@@ -404,7 +404,7 @@ app.put("/employee:id", async (req, res) => {
 });
 
 // update cafe
-app.put("/cafe:storenum", async (req, res) => {
+app.put("/cafe/:storenum", async (req, res) => {
     try {
         const {storenum} = req.params;
         const {description} = req.body;
@@ -417,7 +417,7 @@ app.put("/cafe:storenum", async (req, res) => {
 });
 
 // update equipment
-app.put("/equipment:id", async (req, res) => {
+app.put("/equipment/:id", async (req, res) => {
     try {
         const {id} = req.params;
         const {description} = req.body;
@@ -430,7 +430,7 @@ app.put("/equipment:id", async (req, res) => {
 });
 
 // update food price
-app.put("/food:id", async (req, res) => {
+app.put("/food/:id", async (req, res) => {
     try {
         const { id } = req.params;
         const { price } = req.body;
@@ -450,7 +450,7 @@ app.delete("/food/:id", async(req, res) =>{
         const deleteFood = await pool.query(
             "DELETE FROM food WHERE fid = $1", [id]);
         res.json("Food was deleted");
-    } catch (error) {
+    } catch (err) {
         console.log(err.message);
     }
 })
