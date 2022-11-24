@@ -106,7 +106,7 @@ create table buys
 	fid int,
 	primary key (memid, fid),
 	foreign key (memid) references member,
-	foreign key (fid) references food);
+	foreign key (fid) references food on delete cascade);
 
 alter session set constraints = deferred;
 
