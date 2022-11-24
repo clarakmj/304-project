@@ -159,14 +159,14 @@ app.get("/membership", async (req, res) => {
 });
 
 // get all equipment
-app.get("/equipment", async (req, res) => {
-    try {
-        const equipment = await pool.query("SELECT * FROM equipment");
-        res.json(equipment.rows[0]);
-    } catch (err) {
-        console.log(err.message);
-    }
-});
+// app.get("/equipment", async (req, res) => {
+//     try {
+//         const equipment = await pool.query("SELECT * FROM equipment");
+//         res.json(equipment.rows[0]);
+//     } catch (err) {
+//         console.log(err.message);
+//     }
+// });
 
 // get all cafes
 app.get("/cafe", async (req, res) => {
@@ -189,7 +189,7 @@ app.get("/food", async (req, res) => {
     }
 });
 
-// get all member id's of members whose gym is in a particular city
+// get all members of members whose gym is in a particular city
 app.get("/member/:city", async (req, res) => {
     try {
         const { city } = req.params;
@@ -201,23 +201,24 @@ app.get("/member/:city", async (req, res) => {
     }
 });
 
-// get all members with specific branchnum
-app.get("/member/:branch", async (req, res) => {
+// get all gym branch numbers with capacity greater than a certain number
+app.get("/gym/:capacity", async (req, res) => {
     try {
-        const { branch } = req.params;
-        const branchMembers = await pool.query(
-            "SELECT memid, branchnum FROM member WHERE branchnum = $1", [branch]);
-        res.json(branchMembers.rows);
+        const { capacity } = req.params;
+        const gyms = await pool.query(
+            "SELECT branchnum FROM gym WHERE capacity > $1", [capacity]);
+        res.json(gyms.rows);
     } catch (err) {
         console.log(err.message);
     }
 });
 
 // equipment grouped by status
+// !! prob needs to be rewritten currently returning empty
 app.get("/equipment", async (req, res) => {
     try {
         const equipment = await pool.query(
-            "SELECT ename, estatus FROM equipment GROUP BY estatus");
+            "SELECT estatus FROM equipment WHERE etype = 'Strength' GROUP BY estatus");
         res.json(equipment.rows);
     } catch (err) {
         console.log(err.message);
