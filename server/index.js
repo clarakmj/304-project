@@ -74,6 +74,19 @@ app.get("/membership/", async (req, res) => {
     }
 });
 
+// JOIN QUERY
+// get trainer id, member id, and equipment serial number given a specific member routine
+app.get("/uses/:routine", async (req, res) => {
+    try {
+        const { routine } = req.params;
+        const routineInfo = await pool.query(
+            "SELECT t.tid, u.memid, u.serialnum FROM trains t, uses u WHERE u.routine = $1 AND t.memid = u.memid", [routine]);
+        res.json(routineInfo.rows);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
+
 // create gym
 app.post("/gym", async(req, res) => {
     try {
@@ -199,14 +212,14 @@ app.get("/trainer", async (req, res) => {
 });
 
 // get all memberships
-app.get("/membership", async (req, res) => {
-    try {
-        const membership = await pool.query("SELECT * FROM membership");
-        res.json(membership.rows);
-    } catch (err) {
-        console.log(err.message);
-    }
-});
+// app.get("/membership", async (req, res) => {
+//     try {
+//         const membership = await pool.query("SELECT * FROM membership");
+//         res.json(membership.rows);
+//     } catch (err) {
+//         console.log(err.message);
+//     }
+// });
 
 // get all equipment
 // app.get("/equipment", async (req, res) => {

@@ -220,12 +220,12 @@ values
 insert into uses
 (routine, serialnum, memid)
 values
-('Endurance training', 23232, 11),
-('Strength training', 12345, 22),
-('Burst training', 13131, 33),
+('Endurance', 23232, 11),
+('Strength', 12345, 22),
+('Burst', 13131, 33),
 ('Rowing', 23432, 44),
-('Booty building', 45677, 55);
-('Strength training', 19201, 66);
+('Bodybuilding', 45677, 55);
+('Strength', 19201, 66);
 
 insert into buys
 (memid, fid)
