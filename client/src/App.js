@@ -11,6 +11,7 @@ function App() {
   <Fragment>
     <div className="container">
       <InsertFood />
+      <h1 className = "text-center mt-5">Edit Price of Food Items</h1>
       <ListFood />
     </div>
     <div className="container">

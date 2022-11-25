@@ -98,7 +98,7 @@ app.post("/food", async(req, res) => {
     try {
         const { fid, price, storenum, branchnum } = req.body;
         const newFood = await pool.query("INSERT INTO food (fid, price, storenum, branchnum) VALUES($1, $2, $3, $4) RETURNING *", [fid, price, storenum, branchnum]);
-        res.json(newFood.rows[0]);
+        res.json(newFood.rows[0])
     } catch (err) {
         console.log(err.message);
     }
