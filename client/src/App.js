@@ -8,6 +8,7 @@ import ListFood from "./components/ListFood";
 import AggregateSumFood from "./components/AggregateSumFood";
 import AggregateHaving from "./components/AggregateHaving";
 import ProjectMember from "./components/ProjectMember";
+import GlobalMembers from "./components/GlobalMembers";
 
 
 
@@ -28,6 +29,9 @@ function App() {
     </div>
     <div className="container">
       <ProjectMember />
+    </div>
+    <div className="container">
+      <GlobalMembers />
     </div>
     </Fragment>);
 }
