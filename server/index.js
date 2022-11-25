@@ -112,12 +112,12 @@ app.get("/fooditem", async (req, res) => {
 });
 
 // NESTED AGGREGATION WITH GROUP BY QUERY
-// 
-app.get("/fooditem", async (req, res) => {
+// get city and average gym capacity for which the average is the minimum over all gyms by city
+app.get("/mingym", async (req, res) => {
     try {
-        const food = await pool.query(
-            "SELECT max(price), storenum FROM food GROUP BY storenum HAVING count(price) > 1");
-        res.json(food.rows);
+        const gym = await pool.query(
+            "select city, cap from temp where cap = (select min(cap) from temp)");
+        res.json(gym.rows);
     } catch (err) {
         console.log(err.message);
     }

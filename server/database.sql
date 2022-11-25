@@ -137,7 +137,16 @@ values
 (44, 8881998823, '102 Random Boulevard', 'Sara Jones', 1003, 222),
 (55, 8882222277, '98 Hello World', 'Meredith Grey', 1004, 111),
 (66, 2842349877, '99 Street Name', 'Blicker Jones', 1005, 555),
-(77, 9999999999, '12 Hello Ave', 'Dove Boot', 1006, 555);
+(77, 9999999999, '12 Hello Ave', 'Dove Boot', 1006, 555),
+(88, 2222333333, '93 Fire Ave', 'Mr Grinch', 1007, 666),
+(99, 1200394129, '94 Earth Ave', 'Harry Potter', 1008, 777),
+(12, 2912435234, '95 Water Ave', 'Ginny Weasley', 1009, 888),
+(13, 1232131233, '161 Air Ave', 'Lucy Hale', 1010, 999),
+(14, 9458202340, '11 One Street', 'Oprah Winfrey', 1011, 122),
+(15, 2340325252, '22 Two Street', 'Rilakkuma', 1012, 133),
+(16, 1306948593, '33 Three Street', 'Tiger Balm', 1013, 144),
+(17, 4852020344, '44 Four Street', 'Phil Knight', 1014, 155),
+(18, 4838371013, '555 Five Street', 'Santa Ono', 1015, 166);
 
 insert into manager
 (mid, mname, gymnum)
@@ -178,7 +187,16 @@ values
 (1003, '01/01/2024', 44, true, false, true),
 (1004, '05/12/2023', 55, false, true, true),
 (1005, '01/01/2025', 66, true, true, true),
-(1006, '10/10/2023', 77, false, false, false);
+(1006, '10/10/2023', 77, false, false, false),
+(1007, '11/11/2022', 88, false, false, false),
+(1008, '11/11/2022', 99, false, false, false),
+(1009, '10/10/2024', 12, true, false, false),
+(1010, '02/02/2023', 13, true, true, true),
+(1011, '03/03/2022', 14, false, true, true),
+(1012, '04/04/2024', 15, false, true, true),
+(1013, '05/05/2025', 16, true, false, true),
+(1014, '06/06/2026', 17, false, true, false),
+(1015, '07/07/2027', 18, true, false, false);
 
 insert into equipment 
 (serialnum, ename, etype, estatus)
@@ -268,3 +286,5 @@ values
 (66, 1092);
 
 commit;
+
+create view temp(city, cap) as select g.city, avg(g.capacity) as cap from gym g group by g.city;
