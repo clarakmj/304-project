@@ -12,6 +12,7 @@ const ListFood = () => {
       });
 
       setFood(foods.filter(food => food.fid !== fid));
+      window.location= "/";
 
     } catch (err) {
       console.error(err.message);
@@ -36,7 +37,7 @@ const ListFood = () => {
 
 
     return <Fragment>
-         <table class="table mt-5 text-center">
+    <table class="table mt-5 text-center">
     <thead>
       <tr>
         <th>Food ID #</th>

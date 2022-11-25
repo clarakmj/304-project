@@ -1,3 +1,5 @@
+// reference https://www.youtube.com/watch?v=ldYcgPKEZC8&list=WL&index=38&ab_channel=freeCodeCamp.org
+
 const express = require("express");
 const app = express();
 const cors = require("cors");
@@ -14,7 +16,8 @@ app.use(express.json());
 app.post("/food", async(req, res) => {
     try {
         const { fid, price, storenum, branchnum } = req.body;
-        const newFood = await pool.query("INSERT INTO food (fid, price, storenum, branchnum) VALUES($1, $2, $3, $4) RETURNING *", [fid, price, storenum, branchnum]);
+        const newFood = await pool.query(
+            "INSERT INTO food (fid, price, storenum, branchnum) VALUES($1, $2, $3, $4) RETURNING *", [fid, price, storenum, branchnum]);
         res.json(newFood.rows[0]);
     } catch (err) {
         console.log(err.message);
@@ -112,11 +115,28 @@ app.get("/fooditem", async (req, res) => {
 });
 
 // NESTED AGGREGATION WITH GROUP BY QUERY
-// 
-
+// get city and average gym capacity for which the average is the minimum over all gyms by city
+app.get("/mingym", async (req, res) => {
+    try {
+        const gym = await pool.query(
+            "select city, cap from temp where cap = (select min(cap) from temp)");
+        res.json(gym.rows);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
 
 // DIVISION QUERY
-// 
+// get members trained by all trainers
+app.get("/trainedall", async (req, res) => {
+    try {
+        const trainedall = await pool.query(
+            "select m.memname, m.memid from member m where not exists (select tr.tid from trainer tr except (select tr2.tid from trains tr2 where tr2.memid = m.memid))");
+        res.json(trainedall.rows);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
 
 // create gym
 app.post("/gym", async(req, res) => {

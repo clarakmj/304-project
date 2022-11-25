@@ -1,18 +1,19 @@
-create database projectGym;
+create database gymDB;
 
-drop table gym if exists;
-drop table manager if exists;
-drop table trainer if exists;
-drop table worksAt if exists;
-drop table member if exists;
-drop table trains if exists;
-drop table membership if exists;
-drop table equipment if exists;
-drop table uses if exists;
-drop table cafe if exists;
-drop table food if exists;
-drop table buys if exists;
+drop table if exists gym cascade;
+drop table if exists manager cascade;
+drop table if exists trainer cascade;
+drop table if exists worksat cascade;
+drop table if exists member cascade;
+drop table if exists trains cascade;
+drop table if exists membership cascade;
+drop table if exists equipment cascade;
+drop table if exists uses cascade;
+drop table if exists cafe cascade;
+drop table if exists food cascade;
+drop table if exists buys cascade;
 
+begin;
 create table gym
 	(branchnum int,
 	capacity int,
@@ -28,6 +29,9 @@ create table manager
  
 alter table gym add constraint fk_mid foreign key (mid) references manager(mid) deferrable;
 alter table manager add constraint fk_gymnum foreign key (gymnum) references gym(branchnum) deferrable;
+
+set constraints fk_mid deferred;
+set constraints fk_gymnum deferred;
 
 create table trainer
 	(tid int,
@@ -62,7 +66,7 @@ create table trains
 create table membership
 	(memnum int,
 	expirydate char(20),
-	memid, int
+	memid int,
 	amenityaccess boolean,
 	hasmassage boolean,
 	hasfitnessclass boolean,
@@ -70,6 +74,9 @@ create table membership
 
 alter table member add constraint fk_membershipnum foreign key (membershipnum) references membership(memnum) deferrable;
 alter table membership add constraint fk_memid foreign key (memid) references member(memid) deferrable;
+
+set constraints fk_membershipnum deferred;
+set constraints fk_memid deferred;
  
 create table equipment
 	(serialnum int,
@@ -93,6 +100,8 @@ create table cafe
 
 alter table cafe add constraint fk_branchnum foreign key (branchnum) references gym(branchnum) deferrable;
 
+set constraints fk_branchnum deferred;
+
 create table food
 	(fid int,
 	price float,
@@ -108,7 +117,7 @@ create table buys
 	foreign key (memid) references member,
 	foreign key (fid) references food on delete cascade);
 
-alter session set constraints = deferred;
+set constraints all deferred;
 
 insert into gym 
 (branchnum, capacity, city, mid) 
@@ -118,7 +127,15 @@ values
 (333, 100, 'Vancouver', 34567),
 (444, 120, 'Surrey', 45678),
 (555, 50, 'Vancouver', 56789),
-(666, 20, 'Kamloops', 67890);
+(666, 20, 'Kamloops', 67890),
+(777, 110, 'Vancouver', 11111),
+(888, 250, 'Surrey', 22222),
+(999, 180, 'Surrey', 33333),
+(122, 90, 'Victoria', 44444),
+(133, 80, 'Kamloops', 55555),
+(144, 105, 'Victoria', 66666),
+(155, 55, 'Surrey', 77777),
+(166, 10, 'Kamloops', 88888);
 
 insert into member
 (memid, phonenum, streetaddr, memname, membershipnum, branchnum)
@@ -129,7 +146,16 @@ values
 (44, 8881998823, '102 Random Boulevard', 'Sara Jones', 1003, 222),
 (55, 8882222277, '98 Hello World', 'Meredith Grey', 1004, 111),
 (66, 2842349877, '99 Street Name', 'Blicker Jones', 1005, 555),
-(77, 9999999999, '12 Hello Ave', 'Dove Boot', 1006, 555);
+(77, 9999999999, '12 Hello Ave', 'Dove Boot', 1006, 555),
+(88, 2222333333, '93 Fire Ave', 'Mr Grinch', 1007, 666),
+(99, 1200394129, '94 Earth Ave', 'Harry Potter', 1008, 777),
+(12, 2912435234, '95 Water Ave', 'Ginny Weasley', 1009, 888),
+(13, 1232131233, '161 Air Ave', 'Lucy Hale', 1010, 999),
+(14, 9458202340, '11 One Street', 'Oprah Winfrey', 1011, 122),
+(15, 2340325252, '22 Two Street', 'Rilakkuma', 1012, 133),
+(16, 1306948593, '33 Three Street', 'Tiger Balm', 1013, 144),
+(17, 4852020344, '44 Four Street', 'Phil Knight', 1014, 155),
+(18, 4838371013, '555 Five Street', 'Santa Ono', 1015, 166);
 
 insert into manager
 (mid, mname, gymnum)
@@ -139,7 +165,15 @@ values
 (34567, 'Ash', 333),
 (45678, 'Bill', 444),
 (56789, 'Avery', 555),
-(67890, 'Cait', 666);
+(67890, 'Cait', 666),
+(11111, 'Kayn', 777),
+(22222, 'Bruno', 888),
+(33333, 'Jack', 999),
+(44444, 'Sam', 122),
+(55555, 'Frank', 133),
+(66666, 'Juno', 144),
+(77777, 'Cass', 155),
+(88888, 'Karma', 166);
 
 insert into trainer
 (tid, tname)
@@ -162,7 +196,16 @@ values
 (1003, '01/01/2024', 44, true, false, true),
 (1004, '05/12/2023', 55, false, true, true),
 (1005, '01/01/2025', 66, true, true, true),
-(1006, '10/10/2023', 77, false, false, false);
+(1006, '10/10/2023', 77, false, false, false),
+(1007, '11/11/2022', 88, false, false, false),
+(1008, '11/11/2022', 99, false, false, false),
+(1009, '10/10/2024', 12, true, false, false),
+(1010, '02/02/2023', 13, true, true, true),
+(1011, '03/03/2022', 14, false, true, true),
+(1012, '04/04/2024', 15, false, true, true),
+(1013, '05/05/2025', 16, true, false, true),
+(1014, '06/06/2026', 17, false, true, false),
+(1015, '07/07/2027', 18, true, false, false);
 
 insert into equipment 
 (serialnum, ename, etype, estatus)
@@ -229,7 +272,21 @@ values
 (321, 33),
 (393, 44),
 (920, 55),
-(314, 66);
+(314, 66),
+(314, 11),
+(314, 18),
+(123, 44),
+(251, 99),
+(251, 55),
+(393, 15),
+(920, 33),
+(920, 18),
+(251, 11),
+(295, 11),
+(321, 11),
+(393, 11),
+(920, 11),
+(934, 11);
 
 insert into uses
 (routine, serialnum, memid)
@@ -251,4 +308,12 @@ values
 (55, 3997),
 (66, 1092);
 
+set constraints fk_mid immediate;
+set constraints fk_gymnum immediate;
+set constraints fk_membershipnum immediate;
+set constraints fk_memid immediate;
+set constraints fk_branchnum immediate;
+
 commit;
+
+create view temp(city, cap) as select g.city, avg(g.capacity) as cap from gym g group by g.city;
