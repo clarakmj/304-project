@@ -12,6 +12,7 @@ const ListFood = () => {
       });
 
       setFood(foods.filter(food => food.fid !== fid));
+      window.location= "/";
 
     } catch (err) {
       console.error(err.message);
