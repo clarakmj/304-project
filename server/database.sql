@@ -1,5 +1,19 @@
-create database test;
+create database gymDB;
 
+drop table if exists gym cascade;
+drop table if exists manager cascade;
+drop table if exists trainer cascade;
+drop table if exists worksat cascade;
+drop table if exists member cascade;
+drop table if exists trains cascade;
+drop table if exists membership cascade;
+drop table if exists equipment cascade;
+drop table if exists uses cascade;
+drop table if exists cafe cascade;
+drop table if exists food cascade;
+drop table if exists buys cascade;
+
+begin;
 create table gym
 	(branchnum int,
 	capacity int,
@@ -13,8 +27,11 @@ create table manager
 	gymnum int,
 	primary key (mid));
  
-alter table gym add constraint fk_mid foreign key (mid) references manager(mid) deferrable initially deferred;
-alter table manager add constraint fk_gymnum foreign key (gymnum) references gym(branchnum) deferrable initially deferred;
+alter table gym add constraint fk_mid foreign key (mid) references manager(mid) deferrable;
+alter table manager add constraint fk_gymnum foreign key (gymnum) references gym(branchnum) deferrable;
+
+set constraints fk_mid deferred;
+set constraints fk_gymnum deferred;
 
 create table trainer
 	(tid int,
@@ -55,8 +72,11 @@ create table membership
 	hasfitnessclass boolean,
 	primary key (memnum));
 
-alter table member add constraint fk_membershipnum foreign key (membershipnum) references membership(memnum) deferrable initially deferred;
-alter table membership add constraint fk_memid foreign key (memid) references member(memid) deferrable initially deferred;
+alter table member add constraint fk_membershipnum foreign key (membershipnum) references membership(memnum) deferrable;
+alter table membership add constraint fk_memid foreign key (memid) references member(memid) deferrable;
+
+set constraints fk_membershipnum deferred;
+set constraints fk_memid deferred;
  
 create table equipment
 	(serialnum int,
@@ -78,7 +98,9 @@ create table cafe
 	branchnum int,
 	primary key (storenum, branchnum));
 
-alter table cafe add constraint fk_branchnum foreign key (branchnum) references gym(branchnum) deferrable initially deferred;
+alter table cafe add constraint fk_branchnum foreign key (branchnum) references gym(branchnum) deferrable;
+
+set constraints fk_branchnum deferred;
 
 create table food
 	(fid int,
@@ -95,7 +117,7 @@ create table buys
 	foreign key (memid) references member,
 	foreign key (fid) references food on delete cascade);
 
-alter session set constraints = deferred;
+set constraints all deferred;
 
 insert into gym 
 (branchnum, capacity, city, mid) 
@@ -260,7 +282,6 @@ values
 (920, 33),
 (920, 18),
 (251, 11),
-(284, 11),
 (295, 11),
 (321, 11),
 (393, 11),
@@ -286,6 +307,12 @@ values
 (44, 3883),
 (55, 3997),
 (66, 1092);
+
+set constraints fk_mid immediate;
+set constraints fk_gymnum immediate;
+set constraints fk_membershipnum immediate;
+set constraints fk_memid immediate;
+set constraints fk_branchnum immediate;
 
 commit;
 
