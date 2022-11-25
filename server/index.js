@@ -124,7 +124,16 @@ app.get("/mingym", async (req, res) => {
 });
 
 // DIVISION QUERY
-// 
+// get members trained by all trainers
+app.get("/trainsall", async (req, res) => {
+    try {
+        const trainall = await pool.query(
+            "select m.memname, m.memid from member m where not exists (select tr.tid from trainer tr except (select tr2.tid from trains tr2 where tr2.memid = m.memid))");
+        res.json(trainall.rows);
+    } catch (err) {
+        console.log(err.message);
+    }
+});
 
 // create gym
 app.post("/gym", async(req, res) => {
