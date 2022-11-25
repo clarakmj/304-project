@@ -14,7 +14,8 @@ app.use(express.json());
 app.post("/food", async(req, res) => {
     try {
         const { fid, price, storenum, branchnum } = req.body;
-        const newFood = await pool.query("INSERT INTO food (fid, price, storenum, branchnum) VALUES($1, $2, $3, $4) RETURNING *", [fid, price, storenum, branchnum]);
+        const newFood = await pool.query(
+            "INSERT INTO food (fid, price, storenum, branchnum) VALUES($1, $2, $3, $4) RETURNING *", [fid, price, storenum, branchnum]);
         res.json(newFood.rows[0]);
     } catch (err) {
         console.log(err.message);
@@ -125,11 +126,11 @@ app.get("/mingym", async (req, res) => {
 
 // DIVISION QUERY
 // get members trained by all trainers
-app.get("/trainsall", async (req, res) => {
+app.get("/trainedall", async (req, res) => {
     try {
-        const trainall = await pool.query(
+        const trainedall = await pool.query(
             "select m.memname, m.memid from member m where not exists (select tr.tid from trainer tr except (select tr2.tid from trains tr2 where tr2.memid = m.memid))");
-        res.json(trainall.rows);
+        res.json(trainedall.rows);
     } catch (err) {
         console.log(err.message);
     }
