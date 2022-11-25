@@ -210,20 +210,6 @@ app.post("/cafe", async(req, res) => {
     }
 });
 
-<<<<<<< HEAD
-// create food
-app.post("/food", async(req, res) => {
-    try {
-        const { fid, price, storenum, branchnum } = req.body;
-        const newFood = await pool.query("INSERT INTO food (fid, price, storenum, branchnum) VALUES($1, $2, $3, $4) RETURNING *", [fid, price, storenum, branchnum]);
-        res.json(newFood.rows[0])
-    } catch (err) {
-        console.log(err.message);
-    }
-});
-
-=======
->>>>>>> 0cbf24197c907156c5850ccd09231c2470d2590a
 // get all members
 app.get("/member", async (req, res) => {
     try {
