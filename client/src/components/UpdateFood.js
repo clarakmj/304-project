@@ -7,12 +7,14 @@ const UpdateFood = ({food}) => {
         e.preventDefault();
         try {
             const body = {price};
-            const response = await fetch(`http://localhost:300/food/${food.price}`, {
+            const response = await fetch(`http://localhost:3000/food/${food.fid}`, {
                 method: "PUT", 
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(body)
             })
             console.log(response)
+            window.location= "/";
+            
         } catch (err) {
             console.error(err.message);
         }
@@ -28,7 +30,7 @@ return <Fragment>
     <div class="modal-content">
 
       <div class="modal-header">
-        <h4 class="modal-title">Update Food</h4>
+        <h4 class="modal-title">Update Food Price</h4>
         <button type="button" class="close" data-dismiss="modal">&times;
         </button>
       </div>

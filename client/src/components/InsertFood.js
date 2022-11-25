@@ -20,7 +20,7 @@ const InsertFood = () => {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(body)
-            });
+            }); 
             // window.alert("Done!");
             window.location= "/";
         } catch (err) {
