@@ -5,6 +5,8 @@ import './App.css';
 import InsertFood from './components/InsertFood';
 import SelectMember from './components/SelectMember';
 import ListFood from "./components/ListFood";
+import ProjectMember from "./components/ProjectMember";
+import AggregateHaving from "./components/AggregateHaving";
 
 function App() {
   return (
@@ -15,6 +17,12 @@ function App() {
     </div>
     <div className="container">
       <SelectMember />
+    </div>
+    <div className="container">
+      <ProjectMember />
+    </div>
+    <div className="container">
+      <AggregateHaving />
     </div>
     </Fragment>);
 }
