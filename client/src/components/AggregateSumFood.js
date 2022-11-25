@@ -21,6 +21,7 @@ const AggregateSumFood = () => {
     },[]);
 
     console.log(sum)
+    console.log(typeof sum);
 
     return <Fragment>
         <h1 className = "text-center mt-5">Sum of all food prices grouped by Store Number</h1>
@@ -35,7 +36,7 @@ const AggregateSumFood = () => {
       {sum.map(food => (
         <tr key = {food.storenum}>
           <td>{food.storenum}</td>
-          <td>{food.sum}</td>
+          <td>{food.sum.toFixed(2)}</td>
         </tr>
       ))}
     </tbody>
