@@ -1,17 +1,4 @@
-create database projectGym;
-
-drop table gym if exists;
-drop table manager if exists;
-drop table trainer if exists;
-drop table worksAt if exists;
-drop table member if exists;
-drop table trains if exists;
-drop table membership if exists;
-drop table equipment if exists;
-drop table uses if exists;
-drop table cafe if exists;
-drop table food if exists;
-drop table buys if exists;
+create database test;
 
 create table gym
 	(branchnum int,
@@ -26,8 +13,8 @@ create table manager
 	gymnum int,
 	primary key (mid));
  
-alter table gym add constraint fk_mid foreign key (mid) references manager(mid) deferrable;
-alter table manager add constraint fk_gymnum foreign key (gymnum) references gym(branchnum) deferrable;
+alter table gym add constraint fk_mid foreign key (mid) references manager(mid) deferrable initially deferred;
+alter table manager add constraint fk_gymnum foreign key (gymnum) references gym(branchnum) deferrable initially deferred;
 
 create table trainer
 	(tid int,
@@ -62,14 +49,14 @@ create table trains
 create table membership
 	(memnum int,
 	expirydate char(20),
-	memid, int
+	memid int,
 	amenityaccess boolean,
 	hasmassage boolean,
 	hasfitnessclass boolean,
 	primary key (memnum));
 
-alter table member add constraint fk_membershipnum foreign key (membershipnum) references membership(memnum) deferrable;
-alter table membership add constraint fk_memid foreign key (memid) references member(memid) deferrable;
+alter table member add constraint fk_membershipnum foreign key (membershipnum) references membership(memnum) deferrable initially deferred;
+alter table membership add constraint fk_memid foreign key (memid) references member(memid) deferrable initially deferred;
  
 create table equipment
 	(serialnum int,
@@ -91,7 +78,7 @@ create table cafe
 	branchnum int,
 	primary key (storenum, branchnum));
 
-alter table cafe add constraint fk_branchnum foreign key (branchnum) references gym(branchnum) deferrable;
+alter table cafe add constraint fk_branchnum foreign key (branchnum) references gym(branchnum) deferrable initially deferred;
 
 create table food
 	(fid int,
