@@ -5,6 +5,7 @@ import './App.css';
 import InsertFood from './components/InsertFood';
 import SelectMember from './components/SelectMember';
 import ListFood from "./components/ListFood";
+import AggregateSumFood from "./components/AggregateSumFood";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <InsertFood />
       <h1 className = "text-center mt-5">Edit Price of Food Items</h1>
       <ListFood />
+      <AggregateSumFood />
     </div>
     <div className="container">
       <SelectMember />

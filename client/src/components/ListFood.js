@@ -36,7 +36,7 @@ const ListFood = () => {
 
 
     return <Fragment>
-         <table class="table mt-5 text-center">
+    <table class="table mt-5 text-center">
     <thead>
       <tr>
         <th>Food ID #</th>
