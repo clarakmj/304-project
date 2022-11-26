@@ -27,7 +27,7 @@ const ProjectMember = () => {
     <thead>
       <tr>
         <th>Member ID</th>
-        <th>Phone #</th>
+        <th>Membership Number</th>
         <th>Expiry Date</th>
       </tr>
     </thead>
@@ -36,7 +36,7 @@ const ProjectMember = () => {
       {members.map(members => (
         <tr key = {members.memid}>
           <td>{members.memid}</td>
-          <td>{members.member}</td>
+          <td>{members.memnum}</td>
           <td>{members.expirydate}</td>
         </tr>
       ))}

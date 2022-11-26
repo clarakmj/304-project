@@ -1,15 +1,15 @@
 import React, {Fragment, useEffect, useState} from "react";
 
-const AggregateHaving = () => {
+const AverageCapacity = () => {
 
-    const [foodItem, setItem] = useState([]);
+    const [city, setCity] = useState([]);
 
     const getItem = async () => {
         try {
-            const response = await fetch("http://localhost:3000/fooditem")
+            const response = await fetch("http://localhost:3000/mingym")
             const receivedJson = await response.json();
 
-            setItem(receivedJson);
+            setCity(receivedJson);
             // console.log(sum)
         } catch (err) {
             console.error(err.message);
@@ -21,19 +21,19 @@ const AggregateHaving = () => {
     },[]);
 
     return <Fragment>
-        <h1 className = "text-center mt-5">Most Expensive Food Item Per Store</h1>
+        <h1 className = "text-center mt-5">Minimum Gym Capacity in a City</h1>
         <table class="table mt-5 text-center">
     <thead>
       <tr>
-        <th>Store Number</th>
-        <th>Item Price</th>
+        <th>City</th>
+        <th>Minimum Average Capacity</th>
       </tr>
     </thead>
     <tbody>
-      {foodItem.map(food => (
-        <tr key = {food.storenum}>
-          <td>{food.storenum}</td>
-          <td>{food.max}</td>
+      {city.map(gym => (
+        <tr key = {gym.city}>
+          <td>{gym.city}</td>
+          <td>{gym.cap}</td>
         </tr>
       ))}
     </tbody>
@@ -41,4 +41,4 @@ const AggregateHaving = () => {
     </Fragment>
 }
 
-export default AggregateHaving;
+export default AverageCapacity;
