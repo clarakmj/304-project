@@ -9,6 +9,8 @@ import AggregateSumFood from "./components/AggregateSumFood";
 import AggregateHaving from "./components/AggregateHaving";
 import ProjectMember from "./components/ProjectMember";
 import GlobalMembers from "./components/GlobalMembers";
+import JoinRoutine from "./components/JoinRoutine";
+import AverageCapacity from "./components/AverageCapacity";
 
 
 
@@ -32,6 +34,12 @@ function App() {
     </div>
     <div className="container">
       <GlobalMembers />
+    </div>
+    <div className="container">
+      <JoinRoutine />
+    </div>
+    <div className="container">
+      <AverageCapacity />
     </div>
     </Fragment>);
 }
