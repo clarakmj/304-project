@@ -296,7 +296,9 @@ values
 ('Burst', 13131, 33),
 ('Rowing', 23432, 44),
 ('Bodybuilding', 45677, 55),
-('Strength', 19201, 66);
+('Strength', 19201, 66),
+('Bodybuilding', 92882, 77),
+('Strength', 92882, 88);
 
 insert into buys
 (memid, fid)
