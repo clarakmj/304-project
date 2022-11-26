@@ -1,15 +1,15 @@
 import React, {Fragment, useEffect, useState} from "react";
 
-const AggregateSumFood = () => {
+const AggregateHaving = () => {
 
-    const [sum, setSum] = useState([]);
+    const [foodItem, setItem] = useState([]);
 
-    const getSum = async () => {
+    const getItem = async () => {
         try {
-            const response = await fetch("http://localhost:3000/foodsum")
+            const response = await fetch("http://localhost:3000/fooditem")
             const receivedJson = await response.json();
 
-            setSum(receivedJson);
+            setItem(receivedJson);
             // console.log(sum)
         } catch (err) {
             console.error(err.message);
@@ -17,26 +17,25 @@ const AggregateSumFood = () => {
     }
 
     useEffect(() => {
-        getSum();
+        getItem();
     },[]);
 
-    console.log(sum)
-    console.log(typeof sum);
-
     return <Fragment>
-        <h1 className = "text-center mt-5">Sum of all food prices grouped by Store Number</h1>
+        <h1 className = "text-center mt-5">Most Expensive Food Item Per Store</h1>
         <table class="table mt-5 text-center">
     <thead>
       <tr>
         <th>Store Number</th>
-        <th>Sum of Price</th>
+        <th>Item ID</th>
+        <th>Item Price</th>
       </tr>
     </thead>
     <tbody>
-      {sum.map(food => (
+      {foodItem.map(food => (
         <tr key = {food.storenum}>
           <td>{food.storenum}</td>
-          <td>{food.sum.toFixed(2)}</td>
+          <td>{food.max.toFixed(1)}</td>
+          <td>{food.max.toFixed(2)}</td>
         </tr>
       ))}
     </tbody>
@@ -44,4 +43,4 @@ const AggregateSumFood = () => {
     </Fragment>
 }
 
-export default AggregateSumFood;
+export default AggregateHaving;

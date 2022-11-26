@@ -6,6 +6,11 @@ import InsertFood from './components/InsertFood';
 import SelectMember from './components/SelectMember';
 import ListFood from "./components/ListFood";
 import AggregateSumFood from "./components/AggregateSumFood";
+import AggregateHaving from "./components/AggregateHaving";
+import ProjectMember from "./components/ProjectMember";
+import GlobalMembers from "./components/GlobalMembers";
+
+
 
 function App() {
   return (
@@ -17,7 +22,16 @@ function App() {
       <AggregateSumFood />
     </div>
     <div className="container">
+      <AggregateHaving />
+    </div>
+    <div className="container">
       <SelectMember />
+    </div>
+    <div className="container">
+      <ProjectMember />
+    </div>
+    <div className="container">
+      <GlobalMembers />
     </div>
     </Fragment>);
 }
